@@ -1,34 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { media } from '../utils/styles';
 import Article from '../components/ArticleSummary';
 
-class SummaryList extends Component {
-  render() {
-    const { loading, hasError, data: articles, cardView } = this.props;
-    return (
-      <div>
-        {loading && <span>loading</span>}
-        {hasError && <span>error</span>}
-        {!loading &&
-          !hasError &&
-          articles &&
-          <StSummaryList>
-            <StSummaryWrapper>
-              {articles.map((article, index) => (
-                <Article
-                  key={`${article.id}-${index}`}
-                  cardView={cardView}
-                  article={article}
-                />
-              ))}
-            </StSummaryWrapper>
-          </StSummaryList>}
+const SummaryList = ({ loading, hasError, data: articles, cardView }) => (
+  <div>
+    {loading && <span>loading</span>}
+    {hasError && <span>error</span>}
+    {!loading &&
+      !hasError &&
+      articles &&
+      <StSummaryList>
+        <StSummaryWrapper>
+          {articles.map((article, index) => (
+            <Article
+              key={`${article.id}-${index}`}
+              cardView={cardView}
+              article={article}
+            />
+          ))}
+        </StSummaryWrapper>
+      </StSummaryList>}
 
-      </div>
-    );
-  }
-}
+  </div>
+);
 
 const StSummaryList = styled.div`
   width:100%;

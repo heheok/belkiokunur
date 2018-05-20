@@ -9,7 +9,9 @@ const Header = () => (
     <StHeader>
       <StHeaderWrapper>
         <StLogoType to="/">BelkiOkunur</StLogoType>
-        <StMenu>Menu</StMenu>
+        <StMenu>
+          <StLink to={'/hikaye-ekle'}>Hikaye Ekle</StLink>
+        </StMenu>
       </StHeaderWrapper>
     </StHeader>
 
@@ -70,7 +72,9 @@ const StLogoType = styled(Link)`
 `;
 const StMenu = styled.div`
   font-size:18px;
-  color:#1d1d1d;
 `;
 
+const StLink = styled(Link)`
+    color:#1d1d1d;
+`;
 export default Header;
