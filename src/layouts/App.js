@@ -6,6 +6,7 @@ import GenrePage from '../pages/GenrePage';
 import UserPage from '../pages/UserPage';
 import ArticlePage from '../pages/ArticlePage';
 import AddStoryPage from '../pages/AddStoryPage';
+import EditStoryPage from '../pages/EditStoryPage';
 
 export default class App extends Component {
   render() {
@@ -16,7 +17,15 @@ export default class App extends Component {
           <Route path="/" component={HomePage} exact />
           <Route path="/tur/:genreSlug" component={GenrePage} />
           <Route path="/@:authorNick" exact component={UserPage} />
-          <Route path="/@:authorNick/:articleSlug" component={ArticlePage} />
+          <Route
+            path="/@:authorNick/:articleSlug"
+            exact
+            component={ArticlePage}
+          />
+          <Route
+            path="/@:authorNick/:articleSlug/edit"
+            component={EditStoryPage}
+          />
           <Route path="/hikaye-ekle" component={AddStoryPage} />
         </Switch>
       </div>

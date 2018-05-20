@@ -7,7 +7,7 @@ import getSlug from 'speakingurl';
 import striptags from 'striptags';
 import { media } from '../utils/styles';
 
-class AddStoryPage extends Component {
+class EditStoryPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +24,28 @@ class AddStoryPage extends Component {
   };
 
   componentDidMount() {
+    const { articleSlug } = this.props.match.params;
+    const params = {
+      slug: articleSlug
+    };
+    axios
+      .get('http://localhost:8080/articles/', { params })
+      .then(({ data }) => {
+        this.setState({
+          title: data[0].title,
+          text: data[0].text,
+          articleId: data[0].id,
+          loading: false,
+          hasError: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          hasError: true,
+          loading: false
+        });
+      });
+
     this.autosaveTimer();
   }
 
@@ -48,7 +70,7 @@ class AddStoryPage extends Component {
         title: title,
         slug: getSlug(title).substr(0, 30),
         text: text,
-        published: false
+        published: true
       })
       .then(({ data: { id } }) => {
         this.setState({ articleId: id });
@@ -94,20 +116,14 @@ class AddStoryPage extends Component {
             onChange={this.handleTitleChange}
             options={{
               toolbar: false,
-              placeholder: {
-                text: 'Başlık',
-                hideOnClick: false
-              }
+              placeholder: false
             }}
           />
           <StEditorBody
             text={this.state.text}
             onChange={this.handleBodyChange}
             options={{
-              placeholder: {
-                text: 'Hikayeni Anlat...',
-                hideOnClick: false
-              },
+              placeholder: false,
               anchor: {
                 placeholderText: 'Link vermek istediğiniz URL',
                 targetCheckbox: false,
@@ -165,4 +181,4 @@ const StEditorTitle = styled(Editor)`
   } 
 `;
 
-export default AddStoryPage;
+export default EditStoryPage;

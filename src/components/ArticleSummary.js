@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import striptags from 'striptags';
 import TiThumbsOk from 'react-icons/lib/ti/thumbs-ok';
+import { getReadTime } from '../utils/article';
 
 const ArticleSummary = ({
   cardView,
@@ -17,7 +18,7 @@ const ArticleSummary = ({
   }
 }) => {
   const summary = striptags(text).substr(0, 250);
-  const readTimeInMinutes = Math.ceil(striptags(text).split(' ').length / 190);
+  const readTimeInMinutes = getReadTime(text);
   return (
     <StSummary cardView={cardView}>
       <StSummaryBody>
@@ -41,7 +42,7 @@ const ArticleSummary = ({
             {title}
           </StSummaryTitle>
         </StSummaryClickable>
-        <StReactMarkdown>{summary}</StReactMarkdown>
+        <StReactMarkdown dangerouslySetInnerHTML={{ __html: summary }} />
 
       </StSummaryBody>
       {!cardView &&
@@ -51,7 +52,7 @@ const ArticleSummary = ({
               {authorName}
             </StSummaryAuthorName>
             <StSummaryDate>
-              {`${date} - 10 dk. okuma`}
+              {`${date} - ${readTimeInMinutes} dk. okuma`}
             </StSummaryDate>
           </StAuthorInformation>
           <StSummaryStats>
