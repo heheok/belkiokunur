@@ -10,10 +10,13 @@
     "react-compose": "^2.0.0",
     "react-dom": "^16.3.2",
     "react-icons": "^2.2.7",
-    "react-markdown": "^3.3.2",
+    "react-medium-editor": "^1.8.1",
     "react-router-dom": "^4.2.2",
     "react-sticky": "^6.0.2",
-    "styled-components": "^3.2.6"
+    "speakingurl": "^14.0.1",
+    "striptags": "^3.1.1",
+    "styled-components": "^3.2.6",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "react-scripts": "1.1.4"

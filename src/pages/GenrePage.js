@@ -16,7 +16,8 @@ class GenrePage extends Component {
       url: `http://localhost:8080/articles`,
       params: {
         genreId: categoryId,
-        _expand: ['genre', 'author']
+        _expand: ['genre', 'author'],
+        published: true
       },
       loadingMessage: 'Loading Posts'
     })(SummaryList);

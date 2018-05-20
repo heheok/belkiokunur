@@ -7,7 +7,8 @@ class HomePage extends Component {
     const SummaryListWithData = hasData({
       url: 'http://localhost:8080/articles',
       params: {
-        _expand: ['genre', 'author']
+        _expand: ['genre', 'author'],
+        published: true
       },
       loadingMessage: 'Loading Posts'
     })(SummaryList);

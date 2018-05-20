@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
+import striptags from 'striptags';
 import TiThumbsOk from 'react-icons/lib/ti/thumbs-ok';
 
 const ArticleSummary = ({
@@ -16,6 +16,8 @@ const ArticleSummary = ({
     genre: { name: genreName, slug: genreSlug }
   }
 }) => {
+  const summary = striptags(text).substr(0, 250);
+  const readTimeInMinutes = Math.ceil(striptags(text).split(' ').length / 190);
   return (
     <StSummary cardView={cardView}>
       <StSummaryBody>
@@ -30,7 +32,7 @@ const ArticleSummary = ({
                 {authorName}
               </StSummaryAuthorName>
               <StSummaryDate>
-                {`${date} - 10 dk. okuma`}
+                {`${date} - ${readTimeInMinutes} dk. okuma`}
               </StSummaryDate>
             </StAuthorInformation>
           </StSummaryInformation>}
@@ -38,8 +40,9 @@ const ArticleSummary = ({
           <StSummaryTitle>
             {title}
           </StSummaryTitle>
-          <StReactMarkdown source={text} />
         </StSummaryClickable>
+        <StReactMarkdown>{summary}</StReactMarkdown>
+
       </StSummaryBody>
       {!cardView &&
         <StSummaryInformation>
@@ -108,12 +111,19 @@ const StSummaryTitle = styled.h3`
   margin:0px;
   margin-bottom:10px;
 `;
-const StReactMarkdown = styled(ReactMarkdown)`
+const StReactMarkdown = styled.div`
   font-size:16px;
   padding:0;
   margin:0;
   margin-bottom:10px;
   color:${props => props.theme.secondaryText};
+  & b{
+    font-weight:600;
+  }
+  & p {
+    margin:0;
+    padding:0;
+  } 
 `;
 
 const StSummaryCategory = styled(Link)`
