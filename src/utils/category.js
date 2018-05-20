@@ -1,14 +1,14 @@
 import Articles, { Categories } from '../mockData';
 
 export function getCategoryName(categoryId) {
-  return Categories.filter(({ id }) => {
+  return Categories.find(({ id }) => {
     return id === categoryId;
-  })[0];
+  });
 }
 export function getCategoryId(categorySlug) {
-  return Categories.filter(({ slug }) => {
+  return Categories.find(({ slug }) => {
     return slug === categorySlug;
-  })[0];
+  });
 }
 export function getArticlesInCategory(categorySlug) {
   return Articles.filter(({ category }) => {
