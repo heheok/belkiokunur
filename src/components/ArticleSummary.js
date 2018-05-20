@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
-import { getCategoryName } from '../utils/category';
 import TiThumbsOk from 'react-icons/lib/ti/thumbs-ok';
 
 const ArticleSummary = ({
+  cardView,
   article: {
     id,
     title,
@@ -17,39 +17,59 @@ const ArticleSummary = ({
   }
 }) => {
   return (
-    <StSummary>
+    <StSummary cardView={cardView}>
       <StSummaryBody>
-        <StSummaryCategory to={`/tur/${genreSlug}`}>
-          {genreName}
-        </StSummaryCategory>
-        <StSummaryClickable href={`/@${authorNick}/${slug}`}>
+        {!cardView &&
+          <StSummaryCategory to={`/tur/${genreSlug}`}>
+            {genreName}
+          </StSummaryCategory>}
+        {cardView &&
+          <StSummaryInformation cardView={cardView}>
+            <StAuthorInformation>
+              <StSummaryAuthorName to={`/@${authorNick}`}>
+                {authorName}
+              </StSummaryAuthorName>
+              <StSummaryDate>
+                {`${date} - 10 dk. okuma`}
+              </StSummaryDate>
+            </StAuthorInformation>
+          </StSummaryInformation>}
+        <StSummaryClickable to={`/@${authorNick}/${slug}`}>
           <StSummaryTitle>
             {title}
           </StSummaryTitle>
           <StReactMarkdown source={text} />
         </StSummaryClickable>
       </StSummaryBody>
-      <StSummaryInformation>
-        <StAuthorInformation>
-          <StSummaryAuthorName to={`/@${authorNick}`}>
-            {authorName}
-          </StSummaryAuthorName>
-          <StSummaryDate>
-            {`${date} - 10 dk. okuma`}
-          </StSummaryDate>
-        </StAuthorInformation>
-        <StSummaryStats>
-          <TiThumbsOk />
-        </StSummaryStats>
-      </StSummaryInformation>
+      {!cardView &&
+        <StSummaryInformation>
+          <StAuthorInformation>
+            <StSummaryAuthorName to={`/@${authorNick}`}>
+              {authorName}
+            </StSummaryAuthorName>
+            <StSummaryDate>
+              {`${date} - 10 dk. okuma`}
+            </StSummaryDate>
+          </StAuthorInformation>
+          <StSummaryStats>
+            <TiThumbsOk />
+          </StSummaryStats>
+        </StSummaryInformation>}
     </StSummary>
   );
 };
 
 const StSummary = styled.div`
+
   width:100%;
-  padding:30px 0px;
-  border-bottom:1px solid #dfdfdf;
+  padding: ${props => (props.cardView ? '23px' : '30px 0px')};
+  border-radius: ${props => (props.cardView ? '5px' : '0px')};
+  border-width: ${props => (props.cardView ? '1px' : '0px 0px 1px 0px')};
+  border-color: #dfdfdf;
+  border-style: solid
+  margin-bottom: ${props => (props.cardView ? '25px' : '0px')};
+  box-shadow: ${props => (props.cardView ? '0 1px 4px rgba(0, 0, 0, 0.1)' : '0px')};
+  
 `;
 
 const StSummaryInformation = styled.footer`
@@ -57,6 +77,7 @@ const StSummaryInformation = styled.footer`
   height:30px;
   display:flex;
   justify-content:space-between;
+  margin-bottom: ${props => (props.cardView ? '20px' : '0px')};
 `;
 const StSummaryStats = styled.div`
   color:${props => props.theme.secondaryText};
@@ -74,10 +95,9 @@ const StSummaryDate = styled.div`
   font-size:14px;
   color:${props => props.theme.secondaryText};
 `;
-const StSummaryBody = styled.div`
-  margin-top:20px;
-`;
-const StSummaryClickable = styled.a` `;
+const StSummaryBody = styled.div``;
+
+const StSummaryClickable = styled(Link)` `;
 
 const StSummaryTitle = styled.h3`
   font-size:24px;

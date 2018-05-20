@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SummaryList from '../components/SummaryList';
+import SummaryList from '../containers/SummaryList';
 import { getCategoryId } from '../utils/category';
 import hasData from '../hoc/hasData';
 
@@ -20,7 +20,7 @@ class GenrePage extends Component {
       },
       loadingMessage: 'Loading Posts'
     })(SummaryList);
-    return <SummaryListWithData />;
+    return <SummaryListWithData cardView={false} />;
   }
 }
 export default GenrePage;

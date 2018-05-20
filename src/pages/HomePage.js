@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SummaryList from '../components/SummaryList';
+import SummaryList from '../containers/SummaryList';
 import hasData from '../hoc/hasData';
 
 class HomePage extends Component {
@@ -11,7 +11,7 @@ class HomePage extends Component {
       },
       loadingMessage: 'Loading Posts'
     })(SummaryList);
-    return <SummaryListWithData />;
+    return <SummaryListWithData cardView={false} />;
   }
 }
 

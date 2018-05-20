@@ -5,7 +5,7 @@ import Article from '../components/ArticleSummary';
 
 class SummaryList extends Component {
   render() {
-    const { loading, hasError, data: articles } = this.props;
+    const { loading, hasError, data: articles, cardView } = this.props;
     return (
       <div>
         {loading && <span>loading</span>}
@@ -16,7 +16,11 @@ class SummaryList extends Component {
           <StSummaryList>
             <StSummaryWrapper>
               {articles.map((article, index) => (
-                <Article key={`${article.id}-${index}`} article={article} />
+                <Article
+                  key={`${article.id}-${index}`}
+                  cardView={cardView}
+                  article={article}
+                />
               ))}
             </StSummaryWrapper>
           </StSummaryList>}
