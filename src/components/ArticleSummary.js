@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import striptags from 'striptags';
-import TiThumbsOk from 'react-icons/lib/ti/thumbs-ok';
+import FaHeartO from 'react-icons/lib/fa/heart-o';
 import { getReadTime } from '../utils/article';
 
 const ArticleSummary = ({
@@ -56,7 +56,7 @@ const ArticleSummary = ({
             </StSummaryDate>
           </StAuthorInformation>
           <StSummaryStats>
-            <TiThumbsOk />
+            <FaHeartO />
           </StSummaryStats>
         </StSummaryInformation>}
     </StSummary>

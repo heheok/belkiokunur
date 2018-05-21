@@ -12,13 +12,15 @@ const SummaryList = ({ loading, hasError, data: articles, cardView }) => (
       articles &&
       <StSummaryList>
         <StSummaryWrapper>
-          {articles.map((article, index) => (
-            <Article
-              key={`${article.id}-${index}`}
-              cardView={cardView}
-              article={article}
-            />
-          ))}
+          {articles && articles.length > 0
+            ? articles.map((article, index) => (
+                <Article
+                  key={`${article.id}-${index}`}
+                  cardView={cardView}
+                  article={article}
+                />
+              ))
+            : <div>Yok... Bitti.</div>}
         </StSummaryWrapper>
       </StSummaryList>}
 
