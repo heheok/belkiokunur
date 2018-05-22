@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
 import SummaryList from '../containers/SummaryList';
-import hasData from '../hoc/hasData';
+import { apiGet } from '../utils/api';
 
 class HomePage extends Component {
+  state = {
+    loading: false,
+    hasError: false,
+    articles: null
+  };
+  componentDidMount = async () => {
+    const endPointResponse = await apiGet({
+      endpoint: 'articles'
+    });
+    this.setState({
+      loading: false,
+      articles: endPointResponse.data ? endPointResponse.data.articles : null,
+      hasError: endPointResponse.hasError
+    });
+  };
   render() {
-    const SummaryListWithData = hasData({
-      url: 'http://localhost:8080/articles',
-      params: {
-        _expand: ['genre', 'author'],
-        published: true
-      },
-      loadingMessage: 'Loading Posts'
-    })(SummaryList);
-    return <SummaryListWithData cardView={false} />;
+    const { articles, loading, hasError } = this.state;
+    return (
+      <SummaryList loading={loading} hasError={hasError} data={articles} />
+    );
   }
 }
-
+//
 export default HomePage;

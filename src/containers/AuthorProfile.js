@@ -14,7 +14,7 @@ class AuthorProfile extends Component {
       readTime,
       articleSlug
     } = this.props;
-    const { fullname, username, summary, since, followers, following } = author;
+
     return (
       <div>
         {loading && <span>loading</span>}
@@ -27,26 +27,30 @@ class AuthorProfile extends Component {
               <StAuthorAvatar compact={compact} />
               {compact
                 ? <StAuthorInformation>
-                    <StAuthorNameCompact to={`/@${username}`}>
-                      {fullname}
+                    <StAuthorNameCompact to={`/@${author.username}`}>
+                      {author.fullname}
                     </StAuthorNameCompact>
                     <StAuthorFollowerStats>
                       <StFollowers>{publishDate}</StFollowers>
                       <StFollows>Okuma Süresi: {readTime} dk.</StFollows>
                     </StAuthorFollowerStats>
-                    <StEditLink to={`/@${username}/${articleSlug}/edit`}>
+                    <StEditLink to={`/@${author.username}/${articleSlug}/edit`}>
                       Düzenle
                     </StEditLink>
                   </StAuthorInformation>
                 : <StAuthorInformation>
-                    <StAuthorName>{fullname}</StAuthorName>
-                    <StAuthorSummary>{summary}</StAuthorSummary>
+                    <StAuthorName>{author.fullname}</StAuthorName>
+                    <StAuthorSummary>{author.summary}</StAuthorSummary>
                     <StMemberSince>
-                      {since} tarihinden beri "belki okunur" diyor.
+                      {author.since} tarihinden beri "belki okunur" diyor.
                     </StMemberSince>
                     <StAuthorFollowerStats>
-                      <StFollowers>{followers} Kişi Takipçi</StFollowers>
-                      <StFollows>{following} Kişiyi Takip Ediyor</StFollows>
+                      <StFollowers>
+                        {author.followerCount} Kişi Takipçi
+                      </StFollowers>
+                      <StFollows>
+                        {author.followingCount} Kişiyi Takip Ediyor
+                      </StFollows>
                     </StAuthorFollowerStats>
                   </StAuthorInformation>}
 
