@@ -1,31 +1,58 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { media } from '../utils/styles';
-import { Categories } from '../mockData';
+import { apiGet } from '../utils/api';
+import { getAuthorContext } from '../utils/auth';
 
-const Header = () => (
-  <StStickyHeader>
-    <StHeader>
-      <StHeaderWrapper>
-        <StLogoType to="/">BelkiOkunur</StLogoType>
-        <StMenu>
-          <StLink to={'/hikaye-ekle'}>Hikaye Ekle</StLink>
-        </StMenu>
-      </StHeaderWrapper>
-    </StHeader>
+class Header extends Component {
+  state = {
+    loading: true,
+    hasError: false,
+    genres: null
+  };
+  componentDidMount = async () => {
+    const endPointResponse = await apiGet({
+      endpoint: 'genres'
+    });
 
-    <StHeader>
-      <StHeaderCategoryWrapper>
-        {Categories.map(category => (
-          <StCategoryLink to={`/tur/${category.slug}`} key={category.id}>
-            {category.name}
-          </StCategoryLink>
-        ))}
-      </StHeaderCategoryWrapper>
-    </StHeader>
-  </StStickyHeader>
-);
+    this.setState({
+      loading: false,
+      genres: endPointResponse.data ? endPointResponse.data.genres : null
+    });
+  };
+  render() {
+    const { genres, loading, hasError } = this.state;
+    return (
+      <div>
+        {loading && <span>loading</span>}
+        {hasError && <span>error</span>}
+        {genres &&
+          genres.length > 0 &&
+          <StStickyHeader>
+            <StHeader>
+              <StHeaderWrapper>
+                <StLogoType to="/">BelkiOkunur</StLogoType>
+                <StMenu>
+                  <StLink to={'/hikaye-ekle'}>Hikaye Ekle</StLink>
+                </StMenu>
+              </StHeaderWrapper>
+            </StHeader>
+
+            <StHeader>
+              <StHeaderCategoryWrapper>
+                {genres.map(genre => (
+                  <StCategoryLink to={`/tur/${genre.slug}`} key={genre.slug}>
+                    {genre.name}
+                  </StCategoryLink>
+                ))}
+              </StHeaderCategoryWrapper>
+            </StHeader>
+          </StStickyHeader>}
+      </div>
+    );
+  }
+}
 
 const StStickyHeader = styled.div`
 
@@ -58,9 +85,13 @@ const StHeaderCategoryWrapper = styled.div`
   `};
 `;
 
-const StCategoryLink = styled(Link)`
+const StCategoryLink = styled(NavLink)`
   color:${props => props.theme.secondaryText};
   text-transform:uppercase;
+  &.active {
+    color:${props => props.theme.primaryText};
+    text-decoration:underline;
+  }
   &:hover{
     color:${props => props.theme.primaryText};
   }

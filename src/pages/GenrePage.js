@@ -1,27 +1,39 @@
 import React, { Component } from 'react';
 import SummaryList from '../containers/SummaryList';
-import { getCategoryId } from '../utils/category';
-import hasData from '../hoc/hasData';
+import { apiGet } from '../utils/api';
 
 class GenrePage extends Component {
-  shouldComponentUpdate(nextProps) {
-    const { genreSlug: nextSlug } = nextProps.match.params;
+  state = {
+    loading: false,
+    hasError: false,
+    articles: null
+  };
+  getAtriclesByGenre = async genreSlug => {
+    const endPointResponse = await apiGet({
+      endpoint: `articles-in/${genreSlug}`
+    });
+    this.setState({
+      loading: false,
+      articles: endPointResponse.data ? endPointResponse.data.articles : null,
+      hasError: endPointResponse.hasError
+    });
+  };
+  componentWillReceiveProps(nextProps) {
+    const { genreSlug: previousGenreSlug } = this.props.match.params;
+    const { genreSlug: nextGenreSlug } = nextProps.match.params;
+    if (previousGenreSlug !== nextGenreSlug) {
+      this.getAtriclesByGenre(nextGenreSlug);
+    }
+  }
+  componentDidMount() {
     const { genreSlug } = this.props.match.params;
-    return nextSlug !== genreSlug;
+    this.getAtriclesByGenre(genreSlug);
   }
   render() {
-    const { genreSlug } = this.props.match.params;
-    const { id: categoryId } = getCategoryId(genreSlug);
-    const SummaryListWithData = hasData({
-      url: `http://localhost:8080/articles`,
-      params: {
-        genreId: categoryId,
-        _expand: ['genre', 'author'],
-        published: true
-      },
-      loadingMessage: 'Loading Posts'
-    })(SummaryList);
-    return <SummaryListWithData cardView={false} />;
+    const { articles, loading, hasError } = this.state;
+    return (
+      <SummaryList loading={loading} hasError={hasError} data={articles} />
+    );
   }
 }
 export default GenrePage;
